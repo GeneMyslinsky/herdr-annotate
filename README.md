@@ -1,7 +1,6 @@
-# herdr-annotate
-
 ![Herdr Annotate](assets/herdr-annotate.webp)
 
+# herdr-annotate
 Herdr Annotate adds comments to copied terminal text in [Herdr](https://github.com/herdrdev/herdr). It collects annotations as Markdown for use with any agent.
 
 ## Requirements

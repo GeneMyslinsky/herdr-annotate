@@ -74,3 +74,24 @@ bun test
 bun run typecheck
 herdr plugin link "$PWD" --enabled
 ```
+
+## Neovim integration
+
+Add this visual-mode mapping to `~/.config/nvim/lua/config/keymaps.lua` for LazyVim, or to `init.lua`:
+
+```lua
+vim.keymap.set("x", "<leader>a", function()
+  vim.cmd('normal! "+y')
+  vim.fn.jobstart({
+    "herdr",
+    "plugin",
+    "action",
+    "invoke",
+    "annotate.capture",
+  })
+end, { desc = "Annotate in Herdr" })
+```
+
+Select text with the mouse or Visual mode. Then press `<leader>a` to open Herdr Annotate.
+
+LazyVim uses `Space` as `<leader>` by default. The mapping keeps mouse support and leaves normal Neovim commands unchanged.

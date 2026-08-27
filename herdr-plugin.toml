@@ -1,6 +1,6 @@
 id = "annotate"
 name = "Annotate"
-version = "0.1.0"
+version = "0.2.0"
 min_herdr_version = "0.8.0"
 description = "Comment on terminal selections and copy annotations as agent context."
 platforms = ["linux", "macos"]
@@ -22,7 +22,7 @@ command = ["bun", "run", "src/export.ts"]
 [[actions]]
 id = "manage"
 title = "Manage annotations"
-description = "Browse, copy, and delete saved annotations."
+description = "Browse, copy, archive, restore, and delete annotations."
 contexts = ["global"]
 command = ["bun", "run", "src/open-manager.ts"]
 

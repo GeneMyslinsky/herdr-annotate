@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="336" height="60" viewBox="0 0 336 60" role="img" aria-labelledby="title">
+  <title id="title">Like this? Star Plannotator</title>
+
+  <defs>
+    <linearGradient id="star-fill" x1="16" y1="16" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD16E"/>
+      <stop offset="1" stop-color="#F5A63A"/>
+    </linearGradient>
+  </defs>
+
+  <g id="card">
+    <rect x="1" y="1" width="334" height="58" rx="11" fill="#0E1020" stroke="#30345D" stroke-width="2"/>
+  </g>
+
+  <g id="star" transform="translate(27 29) rotate(-7)">
+    <path d="M0-14 4.1-4.5 14.4-3.5 6.6 3.2 9 13.3 0 8-9 13.3-6.6 3.2-14.4-3.5-4.1-4.5Z" fill="url(#star-fill)" stroke="#B9C0FF" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+
+  <g id="message" font-family="ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+    <text x="54" y="36" font-size="16" font-weight="600" letter-spacing="-0.2" fill="#B9C0FF">Like this?</text>
+    <text x="129" y="36" font-size="16" font-weight="760" letter-spacing="-0.2" fill="#FFB84D">Star Plannotator</text>
+  </g>
+
+  <g id="accent" fill="none" stroke="#F24B52" stroke-width="2" stroke-linecap="round">
+    <path d="M165 43.5c34-2 71-2 106 0"/>
+  </g>
+</svg>

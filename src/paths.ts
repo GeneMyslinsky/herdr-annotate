@@ -9,3 +9,8 @@ export function stateDir(): string | undefined {
 export function annotationsPath(dir: string): string {
   return path.join(dir, "annotations.jsonl");
 }
+
+/** Resolve the archived-set JSONL store inside the plugin state directory. */
+export function archivesPath(dir: string): string {
+  return path.join(dir, "archives.jsonl");
+}

@@ -3,6 +3,12 @@
 # herdr-annotate
 Herdr Annotate adds comments to copied terminal text in [Herdr](https://github.com/herdrdev/herdr). It collects annotations as Markdown for use with any agent.
 
+<p align="center">
+  <a href="https://github.com/backnotprop/plannotator">
+    <img src="./assets/star-plannotator.svg" width="280" alt="Like this? Star Plannotator">
+  </a>
+</p>
+
 ## Requirements
 
 - Herdr 0.8.0 or later
@@ -60,7 +66,9 @@ herdr server reload-config
 
 Press `Ctrl+B M` to manage annotations. Press `Ctrl+B Shift+A` to copy all annotations as Markdown.
 
-The manager shows the newest annotations first. It can copy or delete one annotation, copy all annotations, or clear the list.
+The manager shows the newest annotations first. Press `y` to copy one annotation or `c` to copy all annotations. A successful copy closes the manager and keeps the annotations saved.
+
+Press `Shift+C` to copy all active annotations, archive the set, and clear the active list. Press `Tab` to browse archives. In the archive view, press `y` to copy a set, `u` to restore it, or `d` twice to permanently delete it.
 
 ## Selection limits
 

@@ -23,6 +23,14 @@ export interface Annotation extends PendingAnnotation {
   createdAt: string;
 }
 
+/** One recoverable set of annotations moved out of the active list. */
+export interface ArchivedAnnotationSet {
+  readonly version: 1;
+  readonly id: string;
+  readonly archivedAt: string;
+  readonly annotations: readonly Annotation[];
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -75,4 +83,23 @@ export function parseAnnotation(value: unknown): Annotation | undefined {
   const createdAt = optionalString(value, "createdAt");
   if (!id || !comment?.trim() || !createdAt) return undefined;
   return { ...pending, id, comment, createdAt };
+}
+
+/** Parse one persisted archive record without accepting partial annotation sets. */
+export function parseArchivedAnnotationSet(value: unknown): ArchivedAnnotationSet | undefined {
+  if (!isRecord(value) || value.version !== 1 || !Array.isArray(value.annotations)) {
+    return undefined;
+  }
+  const id = optionalString(value, "id");
+  const archivedAt = optionalString(value, "archivedAt");
+  if (!id || !archivedAt || value.annotations.length === 0) return undefined;
+
+  const annotations: Annotation[] = [];
+  for (const item of value.annotations) {
+    const annotation = parseAnnotation(item);
+    if (!annotation) return undefined;
+    annotations.push(annotation);
+  }
+
+  return { version: 1, id, archivedAt, annotations };
 }

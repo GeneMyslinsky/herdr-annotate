@@ -388,10 +388,14 @@ reloadActive();
 reloadArchives();
 process.on("exit", cleanup);
 process.on("SIGTERM", () => exit(0));
-process.on("SIGHUP", () => exit(0));
+try {
+  process.on("SIGHUP", () => exit(0));
+} catch {
+  // SIGHUP is not available on every supported platform.
+}
 process.stdout.on("resize", render);
 
-readline.emitKeypressEvents(process.stdin);
+readline.emitKeypressEvents(process.stdin, { escapeCodeTimeout: 20 } as any);
 if (process.stdin.isTTY) process.stdin.setRawMode(true);
 process.stdin.resume();
 process.stdin.on("keypress", (text: string, key: readline.Key) => {

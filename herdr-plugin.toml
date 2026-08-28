@@ -41,3 +41,54 @@ placement = "popup"
 width = 100
 height = 30
 command = ["bun", "src/manager.ts"]
+
+# ---------------------------------------------------------------------------------------
+# Document review with plannotator-tui (https://github.com/plannotator/plannotator-tui).
+# A prebuilt binary is fetched into bin/ at build time; macOS and Linux for now. Where it
+# opens (overlay | split | popup) is the user's choice in ~/.config/plannotator-tui/config.toml.
+
+[[build]]
+platforms = ["macos", "linux"]
+command = ["bash", "scripts/fetch-plannotator-tui.sh"]
+
+[[panes]]
+id = "doc"
+title = "Annotate"
+placement = "overlay"
+platforms = ["macos", "linux"]
+command = ["bash", "scripts/plannotator-tui.sh", "herdr", "pane"]
+
+# Both actions run the launcher, which reads Herdr's invocation context: the focused pane's
+# folder (open) or the clicked file:// link (open-link), and the focused pane's agent as
+# the target the review is sent back to.
+[[actions]]
+id = "open"
+title = "Annotate: open here"
+description = "Review the focused pane's folder in plannotator-tui and send feedback to its agent."
+contexts = ["workspace", "pane"]
+platforms = ["macos", "linux"]
+command = ["bash", "scripts/plannotator-tui.sh", "herdr", "open"]
+
+[[actions]]
+id = "open-link"
+title = "Annotate this file"
+description = "Open a Ctrl-clicked Markdown file in plannotator-tui."
+contexts = ["pane"]
+platforms = ["macos", "linux"]
+command = ["bash", "scripts/plannotator-tui.sh", "herdr", "open"]
+
+[[actions]]
+id = "last"
+title = "Annotate: agent's last message"
+description = "Review the focused agent's most recent message in plannotator-tui and send feedback back."
+contexts = ["pane"]
+platforms = ["macos", "linux"]
+command = ["bash", "scripts/plannotator-tui.sh", "herdr", "last"]
+
+# Ctrl-click on a file:// Markdown link. Anchored on the scheme so web links never match.
+[[link_handlers]]
+id = "markdown-file"
+title = "Annotate this file"
+pattern = "^file://.*\\.(md|markdown|mdx)$"
+action = "open-link"
+platforms = ["macos", "linux"]

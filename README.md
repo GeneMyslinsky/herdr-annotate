@@ -36,10 +36,53 @@ The full install fetches a checksummed
 plugin build (macOS and Linux today). If that download fails you still get lite behavior,
 and the review actions tell you to reinstall. Reinstalling is also how you upgrade.
 
-Then add the keys to Herdr's config — the only manual step:
+> **Required:** Herdr plugins cannot register keys, so bind them once in Herdr's config.
+> One block below, copy as-is.
+>
+> - macOS and Linux: `~/.config/herdr/config.toml`
+> - Windows: `%APPDATA%\herdr\config.toml`
 
-- macOS and Linux: `~/.config/herdr/config.toml`
-- Windows: `%APPDATA%\herdr\config.toml`
+<details open>
+<summary><b>Full install keys</b> — terminal annotations + document and agent-reply review</summary>
+
+```toml
+# Terminal annotations
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "annotate.capture"
+description = "annotate text"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "plugin_action"
+command = "annotate.copy-context"
+description = "copy annotations as context"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "annotate.manage"
+description = "manage annotations"
+
+# Document review (plannotator-tui)
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "annotate.open"
+description = "review documents in this folder"
+
+[[keys.command]]
+key = "prefix+shift+o"
+type = "plugin_action"
+command = "annotate.last"
+description = "review the agent's last reply"
+```
+
+</details>
+
+<details>
+<summary><b>Lite install keys</b> — terminal annotations only</summary>
 
 ```toml
 [[keys.command]]
@@ -59,20 +102,9 @@ key = "prefix+m"
 type = "plugin_action"
 command = "annotate.manage"
 description = "manage annotations"
-
-# Full install only
-[[keys.command]]
-key = "prefix+o"
-type = "plugin_action"
-command = "annotate.open"
-description = "review documents"
-
-[[keys.command]]
-key = "prefix+shift+o"
-type = "plugin_action"
-command = "annotate.last"
-description = "review the agent's last message"
 ```
+
+</details>
 
 Check and reload:
 

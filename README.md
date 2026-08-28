@@ -1,7 +1,7 @@
 ![Herdr Annotate](assets/herdr-annotate.webp)
 
 # herdr-annotate
-Herdr Annotate adds comments to copied terminal text in [Herdr](https://github.com/herdrdev/herdr). It collects annotations as Markdown for use with any agent, and opens whole Markdown documents for review with [plannotator-tui](https://github.com/plannotator/plannotator-tui).
+Annotate inside [Herdr](https://github.com/herdrdev/herdr): comment on any terminal text, review whole Markdown documents and your agent's replies, and send the feedback straight back to the agent. Document review is powered by [plannotator-tui](https://github.com/plannotator/plannotator-tui), which also runs on its own outside Herdr.
 
 <p align="center">
   <a href="https://github.com/backnotprop/plannotator">
@@ -97,65 +97,27 @@ Press `Shift+C` to copy all active annotations, archive the set, and clear the a
 
 Herdr Annotate reads text that Herdr copies to the system clipboard. The plugin cannot read selection state from Neovim or another terminal application.
 
-## Review documents with plannotator-tui
+## Review documents and agent replies
 
-The full plugin also opens whole Markdown documents for review with
-[plannotator-tui](https://github.com/plannotator/plannotator-tui): select text, comment,
-mark it 👍 looks good or ✗ delete, and send the review straight back to the agent as its
-next message. The header button always says where feedback goes, for example
-`Send 3 to claude in w1:p2 ▸`. macOS and Linux for now; the build step downloads a
-checksummed release binary into `bin/`.
+Full install only. Select text, comment, mark it 👍 looks good or ✗ delete; the header
+button says where feedback goes (`Send 3 to claude in w1:p2 ▸`) and one click makes the
+review the agent's next message. macOS and Linux today.
 
-Four ways in:
-
-- **A key.** `annotate.open` (bound above) opens the focused pane's folder with a file tree.
-
-- **The agent's last message.** `annotate.last` (bound above); in an agent's pane it opens a picker
-  of that agent's recent messages, and the review goes back to the same agent. Nothing is
-  written to disk for a message review.
-
-- **Ctrl-click** a `file://…md` link an agent printed. Web links are never touched.
-- **The agent itself**, when it has written a plan it wants reviewed. Install the skill
-  once and agents run `plannotator-tui herdr open <file>` from their own pane; the review
-  arrives as their next message:
+- `annotate.open` — the focused pane's folder, with a file tree.
+- `annotate.last` — a picker of the agent's recent replies (Claude Code, Codex, pi, Copilot
+  CLI, Droid); the review goes back to that agent.
+- **Ctrl-click** a `file://…md` link an agent printed.
+- **The agent asks for review.** Install the skill once; agents then run
+  `plannotator-tui herdr open <file>` and end their turn, and the review arrives as their
+  next message:
 
   ```sh
   npx skills add plannotator/herdr-annotate --skill plannotator-tui -g
   ```
 
-Where plannotator-tui opens is your choice:
-
-```toml
-# ~/.config/plannotator-tui/config.toml
-[herdr]
-placement = "overlay"   # overlay (full tab, default) | split (beside the agent) | popup
-```
-
-`plannotator-tui config` prints the file's path and the values in effect.
-
-### Lite install
-
-For the terminal-selection tools only, with no binary download (all platforms):
-
-```sh
-herdr plugin install plannotator/herdr-annotate/lite
-```
-
-### Test locally before a release
-
-Build plannotator-tui from source, put that build into `bin/` instead of downloading,
-and link this checkout:
-
-```sh
-(cd ~/oss/plannotator-tui && cargo build --release)
-PLANNOTATOR_TUI_BIN=~/oss/plannotator-tui/target/release/plannotator-tui bash scripts/fetch-plannotator-tui.sh
-herdr plugin link "$PWD"
-```
-
-`herdr plugin link` replaces any existing `annotate` link (one plugin id, one directory).
-To go back to another checkout, link that directory again, for example
-`herdr plugin link ~/oss/herdr/herdr-annotate`. Then bind `annotate.open` as above and
-`herdr server reload-config`.
+Where it opens is yours: `~/.config/plannotator-tui/config.toml` with
+`[herdr] placement = "overlay"` (full tab, default), `"split"` (beside the agent) or `"popup"`.
+Want plannotator-tui without Herdr? See its [README](https://github.com/plannotator/plannotator-tui).
 
 ## Development
 
@@ -163,8 +125,12 @@ To go back to another checkout, link that directory again, for example
 bun install
 bun test
 bun run typecheck
-herdr plugin link "$PWD" --enabled
+herdr plugin link "$PWD"
 ```
+
+To test a local plannotator-tui build instead of the pinned release, put it in `bin/`
+before linking: `PLANNOTATOR_TUI_BIN=/path/to/plannotator-tui bash scripts/fetch-plannotator-tui.sh`.
+`herdr plugin link` replaces any existing `annotate` link; link the other directory to switch back.
 
 ## Neovim integration
 

@@ -139,8 +139,7 @@ Full install. Works with Claude Code, Codex, pi, Copilot CLI and Droid.
 | `Ctrl+B Shift+O` | the agent's recent replies |
 | Ctrl-click a `file://…md` link | that file |
 
-Select text → 💬 comment · 👍 looks good · ✗ delete → **Send** (or `E`). The review is the
-agent's next message. `q` quits, asking first if anything is unsent.
+**Send** (or `E`) makes the review the agent's next message. `q` closes.
 
 | Option | Where |
 |---|---|

@@ -88,7 +88,7 @@ next message. The header button always says where feedback goes, for example
 `Send 3 to claude in w1:p2 ▸`. macOS and Linux for now; the build step downloads a
 checksummed release binary into `bin/`.
 
-Three ways in:
+Four ways in:
 
 - **A key.** Bind `annotate.open`; it opens the focused pane's folder with a file tree.
 
@@ -98,7 +98,17 @@ Three ways in:
   type = "plugin_action"
   command = "annotate.open"
   description = "review documents"
+
+  [[keys.command]]
+  key = "prefix+shift+o"
+  type = "plugin_action"
+  command = "annotate.last"
+  description = "review the agent's last message"
   ```
+
+- **The agent's last message.** Bind `annotate.last`; in an agent's pane it opens a picker
+  of that agent's recent messages, and the review goes back to the same agent. Nothing is
+  written to disk for a message review.
 
 - **Ctrl-click** a `file://…md` link an agent printed. Web links are never touched.
 - **The agent itself**, when it has written a plan it wants reviewed. Install the skill

@@ -21,11 +21,21 @@ On Windows, native Herdr plugin support is preview/best-effort. Bun must be on `
 
 ## Install
 
+Two flavors, same plugin id — installing one over the other just swaps:
+
 ```sh
+# Full: terminal-selection annotations + whole-document review (plannotator-tui)
 herdr plugin install plannotator/herdr-annotate
+
+# Lite: terminal-selection annotations only; no binary download, nothing Rust
+herdr plugin install plannotator/herdr-annotate/lite
 ```
 
-Add these key bindings to Herdr's config:
+The full install fetches a checksummed `plannotator-tui` release into `bin/` during the
+plugin build (macOS and Linux today). If that download fails you still get lite behavior,
+and the review actions tell you to reinstall. Reinstalling is also how you upgrade.
+
+Then add the keys to Herdr's config — the only manual step:
 
 - macOS and Linux: `~/.config/herdr/config.toml`
 - Windows: `%APPDATA%\herdr\config.toml`
@@ -48,17 +58,25 @@ key = "prefix+m"
 type = "plugin_action"
 command = "annotate.manage"
 description = "manage annotations"
+
+# Full install only
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "annotate.open"
+description = "review documents"
+
+[[keys.command]]
+key = "prefix+shift+o"
+type = "plugin_action"
+command = "annotate.last"
+description = "review the agent's last message"
 ```
 
-Make sure that the configuration is valid:
+Check and reload:
 
 ```sh
 herdr config check
-```
-
-Reload the configuration:
-
-```sh
 herdr server reload-config
 ```
 
@@ -90,23 +108,9 @@ checksummed release binary into `bin/`.
 
 Four ways in:
 
-- **A key.** Bind `annotate.open`; it opens the focused pane's folder with a file tree.
+- **A key.** `annotate.open` (bound above) opens the focused pane's folder with a file tree.
 
-  ```toml
-  [[keys.command]]
-  key = "prefix+o"
-  type = "plugin_action"
-  command = "annotate.open"
-  description = "review documents"
-
-  [[keys.command]]
-  key = "prefix+shift+o"
-  type = "plugin_action"
-  command = "annotate.last"
-  description = "review the agent's last message"
-  ```
-
-- **The agent's last message.** Bind `annotate.last`; in an agent's pane it opens a picker
+- **The agent's last message.** `annotate.last` (bound above); in an agent's pane it opens a picker
   of that agent's recent messages, and the review goes back to the same agent. Nothing is
   written to disk for a message review.
 

@@ -45,7 +45,7 @@ herdr plugin install plannotator/herdr-annotate/lite
 
 <br clear="all">
 
-> **Required:** bind the keys in Herdr's config — `~/.config/herdr/config.toml`
+> **Required.** Bind the keys in Herdr's config: `~/.config/herdr/config.toml`
 > (Windows: `%APPDATA%\herdr\config.toml`). Copy one block.
 
 <details open>

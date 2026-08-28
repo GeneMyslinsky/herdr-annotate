@@ -10,6 +10,9 @@
 #   1. already installed at the pinned version         -> exit 0
 #   2. PLANNOTATOR_TUI_BIN=/path/to/binary is set      -> copy it (local testing, no download)
 #   3. otherwise download the release asset for this platform and verify its sha256
+#
+# A failed download never fails the plugin install: the TypeScript tools keep working and the
+# review actions explain what to do. Only a bad PLANNOTATOR_TUI_BIN is an error.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -38,7 +41,7 @@ case "$(uname -s)/$(uname -m)" in
   Darwin/x86_64)           target=x86_64-apple-darwin ;;
   Linux/x86_64)            target=x86_64-unknown-linux-gnu ;;
   Linux/aarch64|Linux/arm64) target=aarch64-unknown-linux-gnu ;;
-  *) echo "no plannotator-tui build for $(uname -s)/$(uname -m)" >&2; exit 1 ;;
+  *) echo "warning: no plannotator-tui build for $(uname -s)/$(uname -m); the review pane is unavailable" >&2; exit 0 ;;
 esac
 
 asset="plannotator-tui-$target"
@@ -52,22 +55,23 @@ fetch() {
   elif command -v wget >/dev/null 2>&1; then
     wget -q -O "$2" "$1"
   else
-    echo "need curl or wget" >&2; exit 1
+    echo "need curl or wget" >&2; return 1
   fi
 }
 
 echo "downloading $base/$asset"
-fetch "$base/$asset" "$tmp/$asset"       || { echo "download failed: $base/$asset" >&2; exit 1; }
-fetch "$base/SHA256SUMS" "$tmp/SHA256SUMS" || { echo "download failed: $base/SHA256SUMS" >&2; exit 1; }
+give_up() { echo "warning: $1 — the review pane is unavailable until the plugin is reinstalled" >&2; exit 0; }
+fetch "$base/$asset" "$tmp/$asset"       || give_up "download failed: $base/$asset"
+fetch "$base/SHA256SUMS" "$tmp/SHA256SUMS" || give_up "download failed: $base/SHA256SUMS"
 
 expected="$(grep " $asset\$" "$tmp/SHA256SUMS" | awk '{print $1}')"
-[ -n "$expected" ] || { echo "$asset is not listed in $base/SHA256SUMS" >&2; exit 1; }
+[ -n "$expected" ] || give_up "$asset is not listed in $base/SHA256SUMS"
 if command -v sha256sum >/dev/null 2>&1; then
   actual="$(sha256sum "$tmp/$asset" | awk '{print $1}')"
 else
   actual="$(shasum -a 256 "$tmp/$asset" | awk '{print $1}')"
 fi
-[ "$actual" = "$expected" ] || { echo "sha256 mismatch for $asset: expected $expected, got $actual" >&2; exit 1; }
+[ "$actual" = "$expected" ] || give_up "sha256 mismatch for $asset: expected $expected, got $actual"
 
 chmod +x "$tmp/$asset"
 mv "$tmp/$asset" bin/plannotator-tui

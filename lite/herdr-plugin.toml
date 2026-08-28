@@ -1,5 +1,5 @@
-# Herdr Annotate, light: the TypeScript tools only, no plannotator-tui binary download.
-# Install with: herdr plugin install plannotator/herdr-annotate/light
+# Herdr Annotate, lite: the TypeScript tools only, no plannotator-tui binary download.
+# Install with: herdr plugin install plannotator/herdr-annotate/lite
 # The full plugin at the repository root adds document review with plannotator-tui.
 
 id = "annotate"

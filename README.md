@@ -119,12 +119,12 @@ placement = "overlay"   # overlay (full tab, default) | split (beside the agent)
 
 `plannotator-tui config` prints the file's path and the values in effect.
 
-### Light install
+### Lite install
 
 For the terminal-selection tools only, with no binary download (all platforms):
 
 ```sh
-herdr plugin install plannotator/herdr-annotate/light
+herdr plugin install plannotator/herdr-annotate/lite
 ```
 
 ### Test locally before a release

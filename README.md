@@ -31,16 +31,11 @@ herdr plugin install plannotator/herdr-annotate
 herdr plugin install plannotator/herdr-annotate/lite
 ```
 
-The full install fetches a checksummed
-[plannotator-tui](https://github.com/plannotator/plannotator-tui) release into `bin/` during the
-plugin build (macOS and Linux today). If that download fails you still get lite behavior,
-and the review actions tell you to reinstall. Reinstalling is also how you upgrade.
+Full downloads the pinned [plannotator-tui](https://github.com/plannotator/plannotator-tui)
+binary at install (macOS and Linux today). Reinstall to upgrade.
 
-> **Required:** Herdr plugins cannot register keys, so bind them once in Herdr's config.
-> One block below, copy as-is.
->
-> - macOS and Linux: `~/.config/herdr/config.toml`
-> - Windows: `%APPDATA%\herdr\config.toml`
+> **Required:** bind the keys in Herdr's config — `~/.config/herdr/config.toml`
+> (Windows: `%APPDATA%\herdr\config.toml`). Copy one block.
 
 <details open>
 <summary><b>Full install keys</b> — terminal annotations + document and agent-reply review</summary>
@@ -116,32 +111,31 @@ herdr server reload-config
 ## Use
 
 ### Annotate terminal text
-1. Select terminal text in Herdr.
-2. Press `Ctrl+B A`.
-3. Enter a comment.
-4. Press `Ctrl+S` to save the annotation.
 
-Press `Ctrl+B M` to manage annotations. Press `Ctrl+B Shift+A` to copy all annotations as Markdown.
+| Key | Action |
+|---|---|
+| `Ctrl+B A` | comment on the selected text · `Ctrl+S` saves |
+| `Ctrl+B Shift+A` | copy all annotations as Markdown |
+| `Ctrl+B M` | manage · `y` copy one · `c` copy all · `Shift+C` copy and archive · `Tab` archives (`y` copy · `u` restore · `d d` delete) |
 
-The manager shows the newest annotations first. Press `y` to copy one annotation or `c` to copy all annotations. A successful copy closes the manager and keeps the annotations saved.
+### Review documents and agent replies
 
-Press `Shift+C` to copy all active annotations, archive the set, and clear the active list. Press `Tab` to browse archives. In the archive view, press `y` to copy a set, `u` to restore it, or `d` twice to permanently delete it.
-
-### Review a document or an agent's reply (full install)
+Full install. Works with Claude Code, Codex, pi, Copilot CLI and Droid.
 
 | Key | Opens |
 |---|---|
-| `Ctrl+B O` | the pane's folder, with a file tree |
-| `Ctrl+B Shift+O` | a picker of the agent's recent replies (Claude Code, Codex, pi, Copilot CLI, Droid) |
+| `Ctrl+B O` | this folder, with a file tree |
+| `Ctrl+B Shift+O` | the agent's recent replies |
 | Ctrl-click a `file://…md` link | that file |
 
-Select text → 💬 comment · 👍 looks good · ✗ delete. Click **Send N to claude ▸** (or `E`)
-and the review lands as the agent's next message. `q` quits, and asks first if anything is unsent.
+Select text → 💬 comment · 👍 looks good · ✗ delete → **Send** (or `E`). The review is the
+agent's next message. `q` quits, asking first if anything is unsent.
 
-Agents can request a review themselves: `npx skills add plannotator/herdr-annotate --skill plannotator-tui -g`.
-
-Placement: `[herdr] placement = "overlay" | "split" | "popup"` in `~/.config/plannotator-tui/config.toml`.
-macOS and Linux today. Without Herdr: [plannotator-tui](https://github.com/plannotator/plannotator-tui).
+| Option | Where |
+|---|---|
+| Agents request reviews themselves | `npx skills add plannotator/herdr-annotate --skill plannotator-tui -g` |
+| Open as full tab, split, or popup | `[herdr] placement = "overlay" \| "split" \| "popup"` in `~/.config/plannotator-tui/config.toml` |
+| Use without Herdr | [plannotator-tui](https://github.com/plannotator/plannotator-tui) |
 
 ## Selection limits
 

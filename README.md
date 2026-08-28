@@ -115,6 +115,7 @@ herdr server reload-config
 
 ## Use
 
+### Annotate terminal text
 1. Select terminal text in Herdr.
 2. Press `Ctrl+B A`.
 3. Enter a comment.
@@ -126,31 +127,25 @@ The manager shows the newest annotations first. Press `y` to copy one annotation
 
 Press `Shift+C` to copy all active annotations, archive the set, and clear the active list. Press `Tab` to browse archives. In the archive view, press `y` to copy a set, `u` to restore it, or `d` twice to permanently delete it.
 
+### Review a document or an agent's reply (full install)
+
+| Key | Opens |
+|---|---|
+| `Ctrl+B O` | the pane's folder, with a file tree |
+| `Ctrl+B Shift+O` | a picker of the agent's recent replies (Claude Code, Codex, pi, Copilot CLI, Droid) |
+| Ctrl-click a `file://…md` link | that file |
+
+Select text → 💬 comment · 👍 looks good · ✗ delete. Click **Send N to claude ▸** (or `E`)
+and the review lands as the agent's next message. `q` quits, and asks first if anything is unsent.
+
+Agents can request a review themselves: `npx skills add plannotator/herdr-annotate --skill plannotator-tui -g`.
+
+Placement: `[herdr] placement = "overlay" | "split" | "popup"` in `~/.config/plannotator-tui/config.toml`.
+macOS and Linux today. Without Herdr: [plannotator-tui](https://github.com/plannotator/plannotator-tui).
+
 ## Selection limits
 
 Herdr Annotate reads text that Herdr copies to the system clipboard. The plugin cannot read selection state from Neovim or another terminal application.
-
-## Review documents and agent replies
-
-Full install only. Select text, comment, mark it 👍 looks good or ✗ delete; the header
-button says where feedback goes (`Send 3 to claude in w1:p2 ▸`) and one click makes the
-review the agent's next message. macOS and Linux today.
-
-- `annotate.open` — the focused pane's folder, with a file tree.
-- `annotate.last` — a picker of the agent's recent replies (Claude Code, Codex, pi, Copilot
-  CLI, Droid); the review goes back to that agent.
-- **Ctrl-click** a `file://…md` link an agent printed.
-- **The agent asks for review.** Install the skill once; agents then run
-  `plannotator-tui herdr open <file>` and end their turn, and the review arrives as their
-  next message:
-
-  ```sh
-  npx skills add plannotator/herdr-annotate --skill plannotator-tui -g
-  ```
-
-Where it opens is yours: `~/.config/plannotator-tui/config.toml` with
-`[herdr] placement = "overlay"` (full tab, default), `"split"` (beside the agent) or `"popup"`.
-Want plannotator-tui without Herdr? See its [README](https://github.com/plannotator/plannotator-tui).
 
 ## Development
 

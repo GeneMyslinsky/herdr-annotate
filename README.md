@@ -1,7 +1,7 @@
 ![Herdr Annotate](assets/herdr-annotate.webp)
 
 # herdr-annotate
-Herdr Annotate adds comments to copied terminal text in [Herdr](https://github.com/herdrdev/herdr). It collects annotations as Markdown for use with any agent.
+Herdr Annotate adds comments to copied terminal text in [Herdr](https://github.com/herdrdev/herdr). It collects annotations as Markdown for use with any agent, and opens whole Markdown documents for review with [plannotator-tui](https://github.com/plannotator/plannotator-tui).
 
 <p align="center">
   <a href="https://github.com/backnotprop/plannotator">
@@ -78,6 +78,70 @@ Press `Shift+C` to copy all active annotations, archive the set, and clear the a
 ## Selection limits
 
 Herdr Annotate reads text that Herdr copies to the system clipboard. The plugin cannot read selection state from Neovim or another terminal application.
+
+## Review documents with plannotator-tui
+
+The full plugin also opens whole Markdown documents for review with
+[plannotator-tui](https://github.com/plannotator/plannotator-tui): select text, comment,
+mark it 👍 looks good or ✗ delete, and send the review straight back to the agent as its
+next message. The header button always says where feedback goes, for example
+`Send 3 to claude in w1:p2 ▸`. macOS and Linux for now; the build step downloads a
+checksummed release binary into `bin/`.
+
+Three ways in:
+
+- **A key.** Bind `annotate.open`; it opens the focused pane's folder with a file tree.
+
+  ```toml
+  [[keys.command]]
+  key = "prefix+o"
+  type = "plugin_action"
+  command = "annotate.open"
+  description = "review documents"
+  ```
+
+- **Ctrl-click** a `file://…md` link an agent printed. Web links are never touched.
+- **The agent itself**, when it has written a plan it wants reviewed. Install the skill
+  once and agents run `plannotator-tui herdr open <file>` from their own pane; the review
+  arrives as their next message:
+
+  ```sh
+  npx skills add plannotator/herdr-annotate --skill plannotator-tui -g
+  ```
+
+Where plannotator-tui opens is your choice:
+
+```toml
+# ~/.config/plannotator-tui/config.toml
+[herdr]
+placement = "overlay"   # overlay (full tab, default) | split (beside the agent) | popup
+```
+
+`plannotator-tui config` prints the file's path and the values in effect.
+
+### Light install
+
+For the terminal-selection tools only, with no binary download (all platforms):
+
+```sh
+herdr plugin install plannotator/herdr-annotate/light
+```
+
+### Test locally before a release
+
+Build plannotator-tui from source, put that build into `bin/` instead of downloading,
+and link this checkout:
+
+```sh
+(cd ~/oss/plannotator-tui && cargo build --release)
+PLANNOTATOR_TUI_BIN=~/oss/plannotator-tui/target/release/plannotator-tui bash scripts/fetch-plannotator-tui.sh
+herdr plugin link "$PWD"
+```
+
+`herdr plugin link` replaces any existing `annotate` link (one plugin id, one directory).
+To go back to another checkout, link that directory again, for example
+`herdr plugin link ~/oss/herdr/herdr-annotate`. Then bind `annotate.open` as above and
+`herdr server reload-config`.
 
 ## Development
 

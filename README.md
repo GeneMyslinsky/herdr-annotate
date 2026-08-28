@@ -31,7 +31,8 @@ herdr plugin install plannotator/herdr-annotate
 herdr plugin install plannotator/herdr-annotate/lite
 ```
 
-The full install fetches a checksummed `plannotator-tui` release into `bin/` during the
+The full install fetches a checksummed
+[plannotator-tui](https://github.com/plannotator/plannotator-tui) release into `bin/` during the
 plugin build (macOS and Linux today). If that download fails you still get lite behavior,
 and the review actions tell you to reinstall. Reinstalling is also how you upgrade.
 

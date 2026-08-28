@@ -21,18 +21,29 @@ On Windows, native Herdr plugin support is preview/best-effort. Bun must be on `
 
 ## Install
 
-Two flavors, same plugin id — installing one over the other just swaps:
+Pick one. Installing the other later just swaps it (same plugin id).
+
+<img src="assets/install-full.svg" width="200" align="left" alt="Full">
+
+**Full** — annotate terminal text, review documents and agent replies, send feedback to the agent.
+Downloads the pinned [plannotator-tui](https://github.com/plannotator/plannotator-tui) binary
+(macOS and Linux today). Reinstall to upgrade.
 
 ```sh
-# Full: terminal-selection annotations + whole-document review (plannotator-tui)
 herdr plugin install plannotator/herdr-annotate
+```
 
-# Lite: terminal-selection annotations only; no binary download, nothing Rust
+<br clear="all">
+
+<img src="assets/install-lite.svg" width="200" align="left" alt="Lite">
+
+**Lite** — terminal annotations only. No download, all platforms.
+
+```sh
 herdr plugin install plannotator/herdr-annotate/lite
 ```
 
-Full downloads the pinned [plannotator-tui](https://github.com/plannotator/plannotator-tui)
-binary at install (macOS and Linux today). Reinstall to upgrade.
+<br clear="all">
 
 > **Required:** bind the keys in Herdr's config — `~/.config/herdr/config.toml`
 > (Windows: `%APPDATA%\herdr\config.toml`). Copy one block.
